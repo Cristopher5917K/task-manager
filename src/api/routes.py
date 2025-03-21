@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Task
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_cors import CORS
@@ -30,7 +30,7 @@ def add_new_user():
             return jsonify({"Warning":"Incomplete Credentials"}),401
         else:
             user=User()
-            user_exist=user.query.filter_by(email=email).one_or_none()
+            user_exist=User.query.filter_by(email=email).one_or_none()
 
             if user_exist is not None:
                 return jsonify({"Warning":"User Exist"})
@@ -76,3 +76,53 @@ def login():
                     
     except Exception as err:
         return jsonify(f"Error{err.args}"),500
+    
+@api.route("/tasks", methods=["POST"])
+@jwt_required()
+def post_tasks():
+    try:
+        user_id = int(get_jwt_identity())
+        body=request.json
+
+        task = body.get("task", None)
+        date = body.get("date", None)
+        importance = body.get("importance", None)
+
+        if task is None or date is None:
+            return({"Warining":"Incomplete Information"}),400
+        else:
+            tasks = Task()
+            tasks.task = task
+            tasks.date = date
+            tasks.importance = importance
+            tasks.user_id = user_id
+
+            try:
+                db.session.add(tasks)
+                db.session.commit()
+
+                return jsonify(f'Task {task} added'),200
+            except Exception as error:
+                return jsonify(f'Error: {error}'),500
+
+    except Exception as err:
+        return jsonify(f'Error:{err.args}'),500
+
+@api.route("/tasks", methods=["GET"])
+@jwt_required()
+def get_tasks():
+
+    try:
+        user_id = int(get_jwt_identity())
+        user = User.query.filter_by(id=user_id).one_or_none()
+        
+        if user is None:
+            return jsonify({"warning":"user Not Found"}),401
+        else:
+            return jsonify(user.serialize_with_tasks()),200
+    except Exception as err:
+        return jsonify(f'Error:{err.args}')
+        
+    
+    
+

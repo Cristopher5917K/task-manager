@@ -19,6 +19,14 @@ class User(db.Model):
             "name": self.name,
             "email": self.email,
         }
+    
+    def serialize_with_tasks(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "tasks": [task.serialize() for task in self.tasks]
+        }
 
 class Importance(Enum):
     HIGH = "High"
