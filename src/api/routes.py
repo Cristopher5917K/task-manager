@@ -122,7 +122,54 @@ def get_tasks():
             return jsonify(user.serialize_with_tasks()),200
     except Exception as err:
         return jsonify(f'Error:{err.args}')
-        
+
+@api.route("/tasks/<int:task_id>", methods=["PUT"])
+@jwt_required()
+def edit_task(task_id):
+    user_id = int(get_jwt_identity())
+    user = User.query.filter_by(id=user_id).one_or_none()    
+
+    if user is None:
+        return jsonify({"Warning":"User Not Found"}),401
     
+    try:
+        task=Task.query.filter_by(id=task_id).one_or_none()
+
+        if task is None:
+            return jsonify({"Warning":"Task not found"}),401
+        
+        body=request.json
+
+        
+        task.task = body.get("task", task.task)
+        task.date = body.get("date", task.date)
+        task.importance = body.get("importance", task.importance)
+
+        db.session.commit()
+        return jsonify("Task Edited"),201
+    except Exception as err:
+        return jsonify(f'Error:{err.args}'),500
+    
+@api.route("/tasks/<int:task_id>", methods=["DELETE"])
+@jwt_required()
+def delete_task(task_id):
+    user_id = int(get_jwt_identity())
+    user=User.query.filter_by(id=user_id).one_or_none()
+
+    if user is None:
+        return jsonify({"Warning":"User Not Found"}),401
+    
+    try:
+        task=Task.query.filter_by(id=task_id).one_or_none()
+
+        if task is None:
+            return jsonify({"Warning":"Task Not Found"}),401
+        
+        db.session.delete(task)
+        db.session.commit()
+        
+        return jsonify("Task Deleted"),200
+    except Exception as err:
+        return jsonify(f'Error:{err.args}'),500
     
 
