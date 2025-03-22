@@ -41,7 +41,7 @@ const Tasks = () => {
                 response = await actions.editTask(task, editingTask.id);
                 if (response === 200) {
                     setTask(initialTask);
-                    setEditingTask(null);  // Clear the editing state
+                    setEditingTask(null);  
                     alert("Task updated");
                 }
             } else {
