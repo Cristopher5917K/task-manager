@@ -20,11 +20,11 @@ CORS(api)
 @api.route("/register", methods=["POST"])
 def add_new_user():
     try:
-        body=request.json
+        body_forms=request.form
 
-        name = body.get("name",None)
-        email = body.get("email",None)
-        password = body.get("password",None)
+        name = body_forms.get("name",None)
+        email = body_forms.get("email",None)
+        password = body_forms.get("password",None)
 
         if name is None or email is None or password is None:
             return jsonify({"Warning":"Incomplete Credentials"}),401
@@ -57,9 +57,9 @@ def add_new_user():
 @api.route("/login", methods=["POST"])
 def login():
     try:
-        body=request.json   
-        email=body.get("email", None)
-        password=body.get("password", None)
+        body_forms_forms=request.json   
+        email=body_forms_forms.get("email", None)
+        password=body_forms_forms.get("password", None)
 
         if email is None or password is None:
             return jsonify({"Warning":"Incomplete Credentials"}),400
@@ -82,11 +82,11 @@ def login():
 def post_tasks():
     try:
         user_id = int(get_jwt_identity())
-        body=request.json
+        body_forms=request.json
 
-        task = body.get("task", None)
-        date = body.get("date", None)
-        importance = body.get("importance", None)
+        task = body_forms.get("task", None)
+        date = body_forms.get("date", None)
+        importance = body_forms.get("importance", None)
 
         if task is None or date is None:
             return({"Warining":"Incomplete Information"}),400
@@ -101,7 +101,7 @@ def post_tasks():
                 db.session.add(tasks)
                 db.session.commit()
 
-                return jsonify(f'Task {task} added'),200
+                return jsonify(f'Task {task} added'),201
             except Exception as error:
                 return jsonify(f'Error: {error}'),500
 
@@ -138,12 +138,12 @@ def edit_task(task_id):
         if task is None:
             return jsonify({"Warning":"Task not found"}),401
         
-        body=request.json
+        body_forms=request.form
 
         
-        task.task = body.get("task", task.task)
-        task.date = body.get("date", task.date)
-        task.importance = body.get("importance", task.importance)
+        task.task = body_forms.get("task", task.task)
+        task.date = body_forms.get("date", task.date)
+        task.importance = body_forms.get("importance", task.importance)
 
         db.session.commit()
         return jsonify("Task Edited"),201

@@ -1,7 +1,120 @@
-/*
-    home.css: This website contains selectors only used in home.css
+body{
+    background-color: hsl(0, 0%, 93%);
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.app-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    text-align: end;
+    padding: 70px;
+    padding-top: 0px;
+    margin-top: -40px;
+}
+
+.intro-title { 
+    margin-bottom: 20px;
+}
+
+.intro-text {
+    font-size: 1.8rem;
+    color: #757373;
+    max-width: 850px;
+    text-align: start;
+    padding-left: 70px;
+}
+
+.navbar-name {
+    color: black;
+    text-decoration: none;
+}
+
+.intro-picture{
+    display: flex;
+    width: 500px;
+    height: 500px;
+    margin-left: 100px;
+    margin-top: 15px;
+    border-radius: 30px;
+    box-shadow: 3px 4px 22px 0px rgba(0,0,0,0.75);
+}
+
+.intro-container{
+    display: flex;
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 70px;  
+    background-color: #e3e3e3;
+    margin-top: 60px;
+    box-shadow: 3px 4px 22px 0px rgba(0,0,0,0.75);
+}
+
+.info-text{
+    font-size: 1.8rem;
+    color: #757373;
+    max-width: 1050px;
+    text-align: center;
+}
+
+.organization-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 50px;
+    margin-top: 50px;
+}
+
+.organization-image {
+    width: 500px;
+    height: 500px;
+    border-radius: 12px;
+    box-shadow: 3px 4px 22px 0px rgba(0,0,0,0.75);
+    margin-left: 200px;
+}
+
+.organization-text {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+}
+
+.organization-text h1 {
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+    color: #333;
+    text-align: left;
+}
+
+.organization-text h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #555;
+    text-align: left;
+}
+
+.organization-text p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.5;
+    text-align: left;
+    padding: 5px;
+}
+
+.start-container{
+    display: flex;
+    background-color: #F7F7F7;
+    padding: 55px;
+}
+
+
+.start-button{
+    margin-left: 800px;
+    width: 150px;
+    padding: 10px;
+}
